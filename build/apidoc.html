@@ -61,12 +61,149 @@
 
     <li class="apidocModuleLi"><a href="#apidoc.module.gulp-data">module gulp-data</a><ol>
 
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-data.gulp-data">
+            function <span class="apidocSignatureSpan"></span>gulp-data
+            <span class="apidocSignatureSpan">(data)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-data.toString">
+            function <span class="apidocSignatureSpan">gulp-data.</span>toString
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-data.toString">module gulp-data.toString</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-data.toString.toString">
+            function <span class="apidocSignatureSpan">gulp-data.</span>toString
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
     </ol></li>
 
 </ol></div>
 
 <div class="apidocSectionDiv">
 <h1><a href="#apidoc.module.gulp-data" id="apidoc.module.gulp-data">module gulp-data</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-data.gulp-data" id="apidoc.element.gulp-data.gulp-data">
+        function <span class="apidocSignatureSpan"></span>gulp-data
+        <span class="apidocSignatureSpan">(data)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">gulp-data = function (data) {
+  &#x27;use strict&#x27;;
+
+  // if necessary check for required param(s), e.g. options hash, etc.
+  if (!data) {
+    throw new gutil.PluginError(&#x27;gulp-data&#x27;, &#x27;No data supplied&#x27;);
+  }
+
+  // see &#x27;Writing a plugin&#x27;
+  // https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/README.md
+
+  function gulpData(file, enc, callback) {
+<span class="apidocCodeCommentSpan">    /*jshint validthis:true*/
+</span>    var self = this, called = false;
+
+    function handle(err, result){
+      // extra guard in case
+      if (called) {
+        return;
+      }
+      called = true;
+      if (err) {
+        self.emit(&#x27;error&#x27;, new gutil.PluginError(&#x27;gulp-data&#x27;, { message: err }));
+        return callback();
+      }
+      file.data = extend(file.data || {}, result);
+      self.push(file);
+      callback();
+    }
+
+    function local(data) {
+      if (data &#x26;&#x26; typeof data.then === &#x27;function&#x27;) {
+        data.then(function(data){
+          return handle(undefined, data);
+        }, function(err) { return handle(err); });
+      }
+      else {
+        handle(undefined, data);
+      }
+    }
+
+    var res = null;
+    if (typeof data === &#x27;function&#x27;) {
+      try {
+        res = data(file, handle);
+      } catch(e) {
+        handle(e);
+      }
+
+      if (data.length &#x3c;= 1) {
+        local(res);
+      }
+
+      return;
+    }
+
+    local(data);
+  }
+
+  return through.obj(gulpData);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-data.toString" id="apidoc.element.gulp-data.toString">
+        function <span class="apidocSignatureSpan">gulp-data.</span>toString
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">toString = function () {
+    return text;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-data.toString" id="apidoc.module.gulp-data.toString">module gulp-data.toString</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-data.toString.toString" id="apidoc.element.gulp-data.toString.toString">
+        function <span class="apidocSignatureSpan">gulp-data.</span>toString
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function toString() { [native code] }</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
 
 </div>
 
